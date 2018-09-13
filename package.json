@@ -1,0 +1,28 @@
+{
+  "name": "seo_qc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Tylrhas/seo_qc.git"
+  },
+  "author": "Tyler Hasenoehrl",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Tylrhas/seo_qc/issues"
+  },
+  "homepage": "https://github.com/Tylrhas/seo_qc#readme",
+  "devDependencies": {
+    "eslint": "^5.5.0",
+    "eslint-config-google": "^0.10.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0"
+  }
+}
