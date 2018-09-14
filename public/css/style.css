@@ -1,0 +1,9 @@
+.search_bar {
+  padding: 10px;
+}
+.search_bar .form-control {
+  padding: 11px;
+}
+.thumbnail img {
+  width: 200px;
+}

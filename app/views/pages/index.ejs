@@ -1,0 +1,25 @@
+<% include ../partials/header.ejs %>
+<% include ../partials/search.ejs %>
+<div class="container">
+    <% include ../partials/nav.ejs %>
+    <div class="tab-content h-100-tabs" id="myTabContent">
+        <div class="tab-pane fade active show" id="results" role="tabpanel" aria-labelledby="results-tab">
+            <% include ../partials/results.ejs %>
+        </div>
+        <div class="tab-pane jobs" id="jobs" role="tabpanel" aria-labelledby="jobs-tab">
+            <div class="container">
+                <table class="table table-striped">
+                    <thead>
+                        <th>Id</th>
+                        <th>URL</th>
+                        <th>Processing</th>
+                        <th>Created</th>
+                        <th>Updated</th>
+                    </thead>
+                    <tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<% include ../partials/footer.ejs %>
