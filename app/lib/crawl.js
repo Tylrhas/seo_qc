@@ -31,6 +31,7 @@ async function start (io) {
 
   // initilize the browser
   puppeteer.launch(args).then(browser => {
+    io.emit('jobStart', job[0].id)
     browser.newPage().then(page => {
       page.on('error', (error) => {
         console.log('Page Error:', error)

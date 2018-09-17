@@ -7,7 +7,13 @@ $('#crawl').click(function () {
   socket.on('enqueued', function (data) {
     job_id = data.id
     console.log(job_id)
+    $('#crawl').html('Enqueued')
   })
+})
+socket.on('jobStart', function (id) {
+  if (id === job_id) {
+    $('#crawl').html('Running')
+  }
 })
 
 socket.on('complete', function (data) {
@@ -19,6 +25,7 @@ socket.on('complete', function (data) {
     for (i = 0; i < data.results.length; i++) {
       addrow(data.results[i])
     }
+    $('#crawl').html('Crawl')
   }
 })
 
@@ -28,4 +35,8 @@ socket.on('newJob', function (data) {
     let jobId = $(this).attr('jobId')
     socket.emit('deleteJob', jobId)
   })
+})
+
+socket.on('enqueued', function (data) {
+
 })
