@@ -3,6 +3,7 @@ var app = express()
 var http = require('http').Server(app)
 var io = require('socket.io')(http)
 app.use(express.static(__dirname + '/public'))
+var models = require('./app/models')
 
 // include needed files
 var jobs = require('./app/lib/jobs')
@@ -50,6 +51,14 @@ io.on('connection', function (socket) {
       socket.emit('jobDeleted', jobId)
     })
   })
+})
+
+// Sync Database
+models.sequelize.sync().then(function () {
+  console.log('Nice! Database looks fine')
+  // load the custom dict
+}).catch(function (err) {
+  console.log(err, 'Something went wrong with the Database Update!')
 })
 
 http.listen(process.env.PORT, function () {
