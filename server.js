@@ -23,12 +23,14 @@ app.get('/', function (req, res) {
 
 io.on('connection', function (socket) {
   // get all the jobs currently in the queue
-  jobs.current().then(jobs => {
-    currentJobs = []
+  jobs.current().then(currentjobs => {
+    currentJobsArray = []
+    if (currentjobs.length > 0) {
     for (i=0; i < jobs.dataValues.length; i++) {
 
     }
-    socket.emit('currentJobs')
+    socket.emit('currentJobs', currentJobsArray)
+  }
   })
   console.log('a user connected');
   socket.on('enqueue', function (data) {
