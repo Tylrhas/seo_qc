@@ -2,7 +2,9 @@ db = require('../models')
 module.exports = {
   enqueue,
   process,
-  getNext
+  getNext,
+  current,
+  remove
 }
 
 function enqueue (url) {
@@ -18,4 +20,17 @@ function process () {
 
 function getNext () {
   return db.jobQueue.findAll({ limit: 1 })
+}
+function remove (jobId) {
+  return db.jobQueue.findAll({
+    where: {
+      id: jobId
+    }
+  }).then(job => {
+    return job[0].destroy()
+  })
+}
+
+function current () {
+  return db.jobQueue.findAll()
 }

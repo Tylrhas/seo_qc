@@ -12,6 +12,9 @@ async function start (io) {
   var urls = []
   var job = await jobs.getNext()
   var url = job[0].url
+  if (url.substr(url.length - 1) === '/') {
+    url = url.slice(0, -1)
+  }
   var homepage = url
   // what enviornment is this running on 
   if (process.env.ENVIRONMENT === 'heroku') {
@@ -71,23 +74,19 @@ async function getLinks (page, urls, url, crawled, homepage, results) {
 }
 
 function qcPage (page, url, crawled, browser, urls, io, job, homepage, results) {
+  // rejected classes 
+
   // get all images on the page
-  page.$$eval('img:not(.divider-image)', images => {
+  page.$$eval('.widget:not(.social-feed):not(.map):not(.directions) img', images => {
     // get the image url and the alt text for it
     return images.map((img) => {
-      return [
-        img.getAttribute('src'), img.getAttribute('alt')
-      ]
+      return { imgSrc: img.src, altText: img.alt }
     })
   }).then(images => {
     console.log(images)
     images.forEach(image => {
-      let data = {
-        altText: image[1],
-        imgSrc: image[0],
-        pageURL: url
-      }
-      results.push(data)
+      image.pageURL = url
+      results.push(image)
     })
     // push the urls to the crawled array
     crawled.push(url)
@@ -120,10 +119,12 @@ function nextPage (crawled, urls, page, browser, io, job, homepage, results) {
       }
     }
     io.emit('complete', results)
-    job[0].destroy()
-    var jobQueue = db.jobQueue.count()
-    if (jobQueue > 0) {
-      return crawl(io)
-    }
+    job[0].destroy().then(() => {
+      db.jobQueue.count().then(jobQueue => {
+        if (jobQueue > 0) {
+          return start(io)
+        }
+      })
+    })
   }
 }

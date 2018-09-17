@@ -21,6 +21,14 @@ app.get('/', function (req, res) {
 })
 
 io.on('connection', function (socket) {
+  // get all the jobs currently in the queue
+  jobs.current().then(jobs => {
+    currentJobs = []
+    for (i=0; i < jobs.dataValues.length; i++) {
+
+    }
+    socket.emit('currentJobs')
+  })
   console.log('a user connected');
   socket.on('enqueue', function (data) {
     // enqueue the website
@@ -35,6 +43,11 @@ io.on('connection', function (socket) {
           crawl.start(io)
         }
       })
+    })
+  })
+  socket.on('deletJob', function (jobId) {
+    jobs.remove().then(() => {
+      socket.emit('jobDeleted', jobId)
     })
   })
 })
