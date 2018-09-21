@@ -31,12 +31,13 @@ socket.on('complete', function (data) {
 
 socket.on('newJob', function (data) {
   addJob(data)
-  $('#job-' + data.id).click(function () {
-    let jobId = $(this).attr('jobId')
-    socket.emit('deleteJob', jobId)
-  })
 })
 
-socket.on('enqueued', function (data) {
-
+socket.on('jobDeleted', function (jobId) {
+  $('#'+jobId).remove()
+})
+socket.on('currentJobs', function (data) {
+  for (i = 0; i <data.length; i++) {
+    addJob(data[i])
+  }
 })

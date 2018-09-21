@@ -24,13 +24,14 @@ app.get('/', function (req, res) {
 io.on('connection', function (socket) {
   // get all the jobs currently in the queue
   jobs.current().then(currentjobs => {
-    currentJobsArray = []
+    let currentJobsArray = []
     if (currentjobs.length > 0) {
-    for (i=0; i < jobs.dataValues.length; i++) {
-
+    for (i=0; i < currentjobs.length; i++) {
+      let job = currentjobs[i]
+      currentJobsArray.push({id: job.id, url: job.url, processing: job.processing, createdAt: job.createdAt, updatedAt: job.updatedAt})
     }
-    socket.emit('currentJobs', currentJobsArray)
   }
+  socket.emit('currentJobs', currentJobsArray)
   })
   console.log('a user connected');
   socket.on('enqueue', function (data) {
@@ -48,8 +49,8 @@ io.on('connection', function (socket) {
       })
     })
   })
-  socket.on('deletJob', function (jobId) {
-    jobs.remove().then(() => {
+  socket.on('deleteJob', function (jobId) {
+    jobs.remove(jobId).then(() => {
       socket.emit('jobDeleted', jobId)
     })
   })
