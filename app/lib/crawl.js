@@ -12,7 +12,8 @@ async function start (io) {
   var urls = []
   var job = await jobs.getNext()
   var url = job[0].url
-  if (url.substr(url.length - 1) === '/') {
+
+  if (url.substr(url.length - 1) === '/' && url.indexOf("-staging.g5static") === -1) {
     url = url.slice(0, -1)
   }
   var homepage = url
